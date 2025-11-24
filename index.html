@@ -2,293 +2,350 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>UniPop – Dernières formations</title>
+  <title>Dernières formations UniPop</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     :root{
       --u-navy:#00164a;
+      --u-accent:#f3c100;
       --u-card:#ffffff;
-      --u-text:#00164a;
+      --u-text:#f7f9ff;
     }
     *{
       box-sizing:border-box;
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      margin:0;
-      padding:0;
     }
     body{
       margin:0;
       background:var(--u-navy);
+      color:var(--u-text);
+    }
+    .page{
+      max-width:1200px;
+      margin:0 auto;
+      padding:24px 16px 48px;
+    }
+    h1{
+      margin:0 0 10px;
+      font-size:28px;
+    }
+    p.sub{
+      margin:0 0 24px;
+      opacity:.85;
     }
 
-    .strip{
-      max-width:960px;
-      margin:24px auto;
-      padding:12px 18px;
-      background:var(--u-navy);
-    }
-
+    /* genau 3 Spalten */
     .grid{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:12px;
-    }
-    @media (max-width:900px){
-      .grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
-    }
-    @media (max-width:550px){
-      .grid{ grid-template-columns:1fr; }
+      gap:16px;
     }
 
+    /* ---- Flip-Card Basis ---- */
     .card{
-      position:relative;
-      height:170px;
       perspective:1000px;
-      cursor:pointer;
+      min-height:154px; /* vorher 140px -> +10% */
     }
-
     .card-inner{
-      position:absolute;
-      inset:0;
-      border-radius:12px;
-      background:var(--u-card);
-      color:var(--u-text);
-      box-shadow:0 8px 20px rgba(0,0,0,.25);
-      overflow:hidden;
+      position:relative;
+      width:100%;
+      height:100%;
       transform-style:preserve-3d;
-      transition:transform .45s ease;
+      transition:transform .6s;
     }
-
     .card.is-flipped .card-inner{
       transform:rotateY(180deg);
     }
-
-    .face{
+    .card-face{
       position:absolute;
       inset:0;
+      backface-visibility:hidden;
+      border-radius:12px;
+      padding:16px;
+      background:var(--u-card);
+      color:#00164a;
+      box-shadow:0 8px 20px rgba(0,0,0,.25);
       display:flex;
       flex-direction:column;
-      padding:12px 16px;
-      backface-visibility:hidden;
-      -webkit-backface-visibility:hidden;
-      -moz-backface-visibility:hidden;
-      -ms-backface-visibility:hidden;
-    }
-
-    .front{
-      padding:0;
-      transform:rotateY(0deg);
-      z-index:2;
-    }
-    .front img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .back{
-      transform:rotateY(180deg);
-      background:var(--u-card);
-      color:var(--u-text);
-      text-align:left;
-      justify-content:flex-start;
       gap:8px;
     }
+    .card-back{
+      transform:rotateY(180deg);
+    }
 
-    .title{
+    .date{
       font-size:14px;
+      font-weight:600;
+      opacity:.8;
+    }
+    .title{
+      font-size:16px;
+      font-weight:700;
+      line-height:1.3;
+      margin:0;
+    }
+    .meta{
+      font-size:14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      opacity:.9;
+      margin-top:4px;
+    }
+    .badge{
+      padding:2px 8px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.1);
+      font-size:12px;
+    }
+    .price{
+      margin-left:auto;
       font-weight:700;
     }
-
-    .desc{
-      font-size:13px;
-      line-height:1.35;
+    .provider{
+      font-size:12px;
+      opacity:.7;
     }
-
-    .btn{
+    .link{
       margin-top:auto;
-      align-self:center;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:6px 18px;
-      border-radius:999px;
-      border:1px solid var(--u-text);
-      font-size:13px;
+      font-size:14px;
+      font-weight:600;
       text-decoration:none;
-      color:var(--u-text);
-      background:transparent;
-      white-space:nowrap;
-      width:auto;
+      color:var(--u-navy);
+      text-align:center;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--u-navy);
+    }
+    .link span{
+      border-bottom:1px solid transparent;
+    }
+    .error{
+      margin-top:16px;
+      color:#ffdddd;
+      background:#661111;
+      padding:8px 10px;
+      border-radius:8px;
+      font-size:14px;
     }
   </style>
 </head>
 <body>
-  <div class="strip">
-    <div class="grid">
-
-      <!-- 1 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="face front">
-            <img src="https://via.placeholder.com/600x400?text=Image+1" alt="Titre du cours 1">
-          </div>
-          <div class="face back">
-            <h2 class="title">Titre du cours 1</h2>
-            <p class="desc">Court texte descriptif du cours 1.</p>
-            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
-              Voir le détail du cours
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 2 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="face front">
-            <img src="https://via.placeholder.com/600x400?text=Image+2" alt="Titre du cours 2">
-          </div>
-          <div class="face back">
-            <h2 class="title">Titre du cours 2</h2>
-            <p class="desc">Court texte descriptif du cours 2.</p>
-            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
-              Voir le détail du cours
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 3 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="face front">
-            <img src="https://via.placeholder.com/600x400?text=Image+3" alt="Titre du cours 3">
-          </div>
-          <div class="face back">
-            <h2 class="title">Titre du cours 3</h2>
-            <p class="desc">Court texte descriptif du cours 3.</p>
-            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
-              Voir le détail du cours
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 4 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="face front">
-            <img src="https://via.placeholder.com/600x400?text=Image+4" alt="Titre du cours 4">
-          </div>
-          <div class="face back">
-            <h2 class="title">Titre du cours 4</h2>
-            <p class="desc">Court texte descriptif du cours 4.</p>
-            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
-              Voir le détail du cours
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 5 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="face front">
-            <img src="https://via.placeholder.com/600x400?text=Image+5" alt="Titre du cours 5">
-          </div>
-          <div class="face back">
-            <h2 class="title">Titre du cours 5</h2>
-            <p class="desc">Court texte descriptif du cours 5.</p>
-            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
-              Voir le détail du cours
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 6 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="face front">
-            <img src="https://via.placeholder.com/600x400?text=Image+6" alt="Titre du cours 6">
-          </div>
-          <div class="face back">
-            <h2 class="title">Titre du cours 6</h2>
-            <p class="desc">Court texte descriptif du cours 6.</p>
-            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
-              Voir le détail du cours
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 7 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="face front">
-            <img src="https://via.placeholder.com/600x400?text=Image+7" alt="Titre du cours 7">
-          </div>
-          <div class="face back">
-            <h2 class="title">Titre du cours 7</h2>
-            <p class="desc">Court texte descriptif du cours 7.</p>
-            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
-              Voir le détail du cours
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 8 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="face front">
-            <img src="https://via.placeholder.com/600x400?text=Image+8" alt="Titre du cours 8">
-          </div>
-          <div class="face back">
-            <h2 class="title">Titre du cours 8</h2>
-            <p class="desc">Court texte descriptif du cours 8.</p>
-            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
-              Voir le détail du cours
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 9 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="face front">
-            <img src="https://via.placeholder.com/600x400?text=Image+9" alt="Titre du cours 9">
-          </div>
-          <div class="face back">
-            <h2 class="title">Titre du cours 9</h2>
-            <p class="desc">Court texte descriptif du cours 9.</p>
-            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
-              Voir le détail du cours
-            </a>
-          </div>
-        </div>
-      </article>
-
-    </div>
+  <div class="page">
+    <h1>Dernières formations UniPop</h1>
+    <p class="sub">
+      Les prochains cours proposés par l’Université populaire (prestataire&nbsp;: UniPop).
+    </p>
+    <div id="courses" class="grid"></div>
+    <div id="msg"></div>
   </div>
 
   <script>
-    const cards = document.querySelectorAll('.card');
+    // 👉 API des formations (custom post type "fb")
+    const API_URL = 'https://www.unipop.lu/wp-json/wp/v2/fb?per_page=100';
 
-    cards.forEach(card => {
-      card.addEventListener('click', e => {
-        if (e.target.closest('a')) return; // Link normal öffnen
+    function normalizeText(v){
+      return (v || '').toString().toLowerCase().trim();
+    }
 
-        cards.forEach(c => {
-          if (c !== card) c.classList.remove('is-flipped');
+    function getField(obj, paths){
+      if(!obj) return '';
+      for(const p of paths){
+        const parts = p.split('.');
+        let cur = obj;
+        let ok = true;
+        for(const part of parts){
+          if(cur && Object.prototype.hasOwnProperty.call(cur, part)){
+            cur = cur[part];
+          }else{
+            ok = false;
+            break;
+          }
+        }
+        if(ok && cur != null && cur !== '') return cur;
+      }
+      return '';
+    }
+
+    async function loadCourses(){
+      const container = document.getElementById('courses');
+      const msg = document.getElementById('msg');
+
+      try{
+        const res = await fetch(API_URL);
+        if(!res.ok) throw new Error('Erreur API: ' + res.status);
+        const data = await res.json();
+
+        const allCourses = Array.isArray(data) ? data : (data.items || []);
+
+        if(!allCourses.length){
+          msg.innerHTML = '<div class="error">Aucune formation trouvée dans l’API.</div>';
+          return;
+        }
+
+        // --- Provider/Prestataire erkennen
+        const withProvider = allCourses.map(c => {
+          const acf = c.acf || {};
+          const meta = c.meta || {};
+
+          const provider = getField({acf, meta, c}, [
+            'acf.provider',
+            'acf.prestataire',
+            'acf.organizer',
+            'acf.organisateur',
+            'meta.provider',
+            'meta.prestataire'
+          ]);
+
+          return { raw:c, provider };
         });
 
-        card.classList.toggle('is-flipped');
-      });
-    });
+        // Nur UniPop – aber wenn das 0 ist, fallback auf alles
+        let onlyUniPop = withProvider.filter(item =>
+          normalizeText(item.provider).includes('unipop')
+        );
+
+        if(onlyUniPop.length === 0){
+          onlyUniPop = withProvider;
+        }
+
+        // Datum holen aus verschiedenen möglichen Feldern
+        function getDate(c){
+          const acf = c.acf || {};
+          const meta = c.meta || {};
+          return getField({acf, meta, c}, [
+            'acf.start_date',
+            'acf.date_debut',
+            'acf.dateStart',
+            'meta.start_date',
+            'meta.date_debut',
+            'meta.dateStart',
+            'date'
+          ]);
+        }
+
+        // nach Datum sortieren
+        onlyUniPop.sort((a,b) => {
+          const da = new Date(getDate(a.raw) || '2100-01-01');
+          const db = new Date(getDate(b.raw) || '2100-01-01');
+          return da - db;
+        });
+
+        // 👉 nur 9 Karten
+        const latest = onlyUniPop.slice(0, 9);
+
+        container.innerHTML = '';
+
+        latest.forEach(item => {
+          const course = item.raw;
+          const acf = course.acf || {};
+          const meta = course.meta || {};
+
+          const title = getField(course, [
+            'title.rendered',
+            'title',
+            'acf.title',
+            'meta.title'
+          ]) || 'Titre à définir';
+
+          const start = getDate(course);
+          const end = getField({acf, meta, course}, [
+            'acf.end_date',
+            'acf.date_fin',
+            'acf.dateEnd',
+            'meta.end_date',
+            'meta.date_fin',
+            'meta.dateEnd'
+          ]);
+
+          const place = getField({acf, meta}, [
+            'acf.location',
+            'acf.lieu',
+            'meta.location',
+            'meta.lieu'
+          ]);
+
+          const level = getField({acf, meta}, [
+            'acf.level',
+            'acf.niveau',
+            'meta.level',
+            'meta.niveau'
+          ]);
+
+          const price = getField({acf, meta}, [
+            'acf.price',
+            'acf.prix',
+            'meta.price',
+            'meta.prix'
+          ]);
+
+          const url = getField(course, [
+            'link',
+            'acf.url',
+            'meta.url'
+          ]) || '#';
+
+          const provider = item.provider || '';
+
+          const dateLabel = start
+            ? (end && end !== start ? `${start} – ${end}` : start)
+            : '';
+
+          // Excerpt / Kurzbeschreibung wenn vorhanden
+          const excerpt = getField(course, [
+            'excerpt.rendered',
+            'excerpt'
+          ]);
+
+          const card = document.createElement('article');
+          card.className = 'card';
+
+          card.innerHTML = `
+            <div class="card-inner">
+              <!-- Vorderseite -->
+              <div class="card-face card-front">
+                ${dateLabel ? `<div class="date">${dateLabel}</div>` : ''}
+                <h2 class="title">${title}</h2>
+                ${provider ? `<div class="provider">Prestataire&nbsp;: ${provider}</div>` : ''}
+                <div class="meta">
+                  ${place ? `<span class="badge">${place}</span>` : ''}
+                  ${level ? `<span class="badge">${level}</span>` : ''}
+                  ${price ? `<span class="badge price">${price}</span>` : ''}
+                </div>
+              </div>
+
+              <!-- Rückseite -->
+              <div class="card-face card-back">
+                <h2 class="title">${title}</h2>
+                ${dateLabel ? `<div class="date">${dateLabel}</div>` : ''}
+                ${place ? `<div class="provider"><strong>Lieu :</strong> ${place}</div>` : ''}
+                ${level ? `<div class="provider"><strong>Niveau :</strong> ${level}</div>` : ''}
+                ${price ? `<div class="provider"><strong>Prix :</strong> ${price}</div>` : ''}
+                ${provider ? `<div class="provider"><strong>Prestataire :</strong> ${provider}</div>` : ''}
+                ${excerpt ? `<div class="provider">${excerpt}</div>` : ''}
+                <a class="link" href="${url}" target="_blank" rel="noopener">
+                  <span>Voir le détail du cours</span>
+                </a>
+              </div>
+            </div>
+          `;
+
+          // Klick auf Karte -> flippen (aber Link normal funktionieren lassen)
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('a')) return; // Link durchlassen
+            card.classList.toggle('is-flipped');
+          });
+
+          container.appendChild(card);
+        });
+
+      }catch(err){
+        console.error(err);
+        msg.innerHTML = '<div class="error">Impossible de charger les formations. Merci de réessayer plus tard.</div>';
+      }
+    }
+
+    loadCourses();
   </script>
 </body>
 </html>
