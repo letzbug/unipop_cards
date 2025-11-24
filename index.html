@@ -26,7 +26,6 @@
       margin:24px auto;
       padding:12px 18px;
       background:var(--u-navy);
-      border-radius:18px;
     }
 
     .grid{
@@ -45,6 +44,7 @@
       position:relative;
       height:170px;
       perspective:1000px;
+      cursor:pointer;
     }
 
     .card-inner{
@@ -54,14 +54,13 @@
       background:var(--u-card);
       color:var(--u-text);
       box-shadow:0 8px 20px rgba(0,0,0,.25);
+      overflow:hidden;
       transform-style:preserve-3d;
       transition:transform .45s ease;
-      overflow:hidden;
-      cursor:pointer;
     }
 
-    /* Flip bei Hover (kein JS nötig) */
-    .card:hover .card-inner{
+    /* Flip nur wenn .flipped gesetzt wird (per Klick) */
+    .card.flipped .card-inner{
       transform:rotateY(180deg);
     }
 
@@ -69,16 +68,18 @@
       position:absolute;
       inset:0;
       display:flex;
-      backface-visibility:hidden;
-      -webkit-backface-visibility:hidden;
+      flex-direction:column;
       padding:12px 16px;
+      /* wir steuern Sichtbarkeit über Opacity,
+         damit es keine Spiegel-Probleme gibt */
+      opacity:0;
+      transition:opacity .2s ease;
     }
 
-    /* FRONT = Bild */
+    /* FRONT = Bild sichtbar, BACK unsichtbar */
     .card-front{
+      opacity:1;
       padding:0;
-      align-items:stretch;
-      justify-content:stretch;
     }
     .card-front img{
       width:100%;
@@ -87,31 +88,36 @@
       display:block;
     }
 
-    /* BACK = Text + Button */
+    /* BACK = Textseite */
     .card-back{
-      transform:rotateY(180deg);
-      flex-direction:column;
-      align-items:flex-start;
-      justify-content:flex-start;
-      gap:10px;
       background:var(--u-card);
+      color:var(--u-text);
+      text-align:left;
+      justify-content:flex-start;
+      gap:8px;
+    }
+
+    /* Wenn Karte geflippt ist: Front aus, Back an */
+    .card.flipped .card-front{
+      opacity:0;
+    }
+    .card.flipped .card-back{
+      opacity:1;
     }
 
     .title{
       font-size:14px;
       font-weight:700;
-      color:var(--u-text);
     }
 
     .desc{
       font-size:13px;
       line-height:1.35;
-      color:var(--u-text);
     }
 
     .btn{
-      display:inline-block;
       margin-top:auto;
+      display:inline-block;
       padding:6px 18px;
       border-radius:999px;
       border:1px solid var(--u-text);
@@ -127,7 +133,7 @@
   <div class="strip">
     <div class="grid">
 
-      <!-- Kachel 1 -->
+      <!-- 1 -->
       <article class="card">
         <div class="card-inner">
           <div class="card-face card-front">
@@ -143,7 +149,7 @@
         </div>
       </article>
 
-      <!-- Kachel 2 -->
+      <!-- 2 -->
       <article class="card">
         <div class="card-inner">
           <div class="card-face card-front">
@@ -159,7 +165,7 @@
         </div>
       </article>
 
-      <!-- Kachel 3 -->
+      <!-- 3 -->
       <article class="card">
         <div class="card-inner">
           <div class="card-face card-front">
@@ -175,7 +181,7 @@
         </div>
       </article>
 
-      <!-- Kachel 4 -->
+      <!-- 4 -->
       <article class="card">
         <div class="card-inner">
           <div class="card-face card-front">
@@ -191,7 +197,7 @@
         </div>
       </article>
 
-      <!-- Kachel 5 -->
+      <!-- 5 -->
       <article class="card">
         <div class="card-inner">
           <div class="card-face card-front">
@@ -207,7 +213,7 @@
         </div>
       </article>
 
-      <!-- Kachel 6 -->
+      <!-- 6 -->
       <article class="card">
         <div class="card-inner">
           <div class="card-face card-front">
@@ -223,7 +229,7 @@
         </div>
       </article>
 
-      <!-- Kachel 7 -->
+      <!-- 7 -->
       <article class="card">
         <div class="card-inner">
           <div class="card-face card-front">
@@ -239,7 +245,7 @@
         </div>
       </article>
 
-      <!-- Kachel 8 -->
+      <!-- 8 -->
       <article class="card">
         <div class="card-inner">
           <div class="card-face card-front">
@@ -255,7 +261,7 @@
         </div>
       </article>
 
-      <!-- Kachel 9 -->
+      <!-- 9 -->
       <article class="card">
         <div class="card-inner">
           <div class="card-face card-front">
@@ -273,5 +279,17 @@
 
     </div>
   </div>
+
+  <script>
+    // Flip nur bei Klick
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', e => {
+        // Wenn auf den Link geklickt wird -> normal öffnen, nicht flippen
+        if (e.target.closest('a')) return;
+        card.classList.toggle('flipped');
+      });
+    });
+  </script>
 </body>
 </html>
+
