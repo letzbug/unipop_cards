@@ -240,14 +240,40 @@
 </div>
 
 <script>
-  // Flip per Klick
-  document.querySelectorAll('.card').forEach(card => {
+  const AUTO_CLOSE_MS = 5000; // 5 Sekunden sichtbar
+
+  const cards = document.querySelectorAll('.card');
+
+  cards.forEach(card => {
     card.addEventListener('click', e => {
+      // Link normal öffnen
       if (e.target.closest('a')) return;
-      card.classList.toggle('is-flipped');
+
+      // alle anderen Karten sofort zurückdrehen + Timer löschen
+      cards.forEach(c => {
+        if (c !== card) {
+          c.classList.remove('is-flipped');
+          if (c._flipTimer) {
+            clearTimeout(c._flipTimer);
+            c._flipTimer = null;
+          }
+        }
+      });
+
+      // eigenen alten Timer löschen (falls schon einmal geklickt)
+      if (card._flipTimer) {
+        clearTimeout(card._flipTimer);
+        card._flipTimer = null;
+      }
+
+      // Karte auf Rückseite drehen (kein Toggle mehr)
+      card.classList.add('is-flipped');
+
+      // nach 5 Sekunden automatisch wieder auf Front drehen
+      card._flipTimer = setTimeout(() => {
+        card.classList.remove('is-flipped');
+        card._flipTimer = null;
+      }, AUTO_CLOSE_MS);
     });
   });
 </script>
-
-  </body>
-</html>
