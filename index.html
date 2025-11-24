@@ -159,8 +159,8 @@
           <img src="IMAGE4.jpg" alt="">
         </div>
         <div class="card-face card-back">
-          <h2 class="title">Titre du cours 4</h2>
-          <p class="desc">Texte de description du cours 4.</p>
+          <h2 class="title">Chinese Philosophy and Culture</h2>
+          <p class="desc">Explore Confucianism, Daoism and Buddhism through simple ideas on harmony, nature and inner peace</p>
           <a class="link" href="https://www.unipop.lu" target="_blank">Voir le détail du cours</a>
         </div>
       </div>
@@ -248,5 +248,47 @@
     });
   });
 </script>
+
+  <script>
+  const AUTO_CLOSE_MS = 5000; // 5 Sekunden
+  const cards = document.querySelectorAll('.card');
+  let currentTimer = null;
+  let currentCard = null;
+
+  cards.forEach(card => {
+    card.addEventListener('click', e => {
+      // Link normal öffnen
+      if (e.target.closest('a')) return;
+
+      // alle anderen Karten schließen
+      cards.forEach(c => {
+        if (c !== card) c.classList.remove('is-flipped');
+      });
+
+      const willOpen = !card.classList.contains('is-flipped');
+
+      // alten Timer löschen
+      if (currentTimer) {
+        clearTimeout(currentTimer);
+        currentTimer = null;
+        currentCard = null;
+      }
+
+      // Karte toggeln
+      card.classList.toggle('is-flipped');
+
+      // wenn geöffnet → Auto-Close starten
+      if (willOpen) {
+        currentCard = card;
+        currentTimer = setTimeout(() => {
+          if (currentCard) currentCard.classList.remove('is-flipped');
+          currentCard = null;
+          currentTimer = null;
+        }, AUTO_CLOSE_MS);
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
