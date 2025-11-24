@@ -43,9 +43,15 @@
 
     .card{
       position:relative;
-      height:90px;
+      height:170px;
       perspective:1000px;
     }
+    @media (max-width:550px){
+      .card{
+        height:190px;
+      }
+    }
+
     .card-inner{
       position:absolute;
       inset:0;
@@ -65,27 +71,33 @@
     .card-face{
       position:absolute;
       inset:0;
-      padding:12px 16px;
       display:flex;
-      align-items:flex-start;
-      justify-content:flex-start;
-
+      align-items:center;
+      justify-content:center;
       backface-visibility:hidden;
       -webkit-backface-visibility:hidden;
       -moz-backface-visibility:hidden;
       -ms-backface-visibility:hidden;
     }
 
+    /* FRONT = nur Bild */
     .card-front{
-      /* nur Titel links oben */
+      padding:0;
+    }
+    .card-front img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
 
+    /* BACK = Text + Button */
     .card-back{
       transform:rotateY(180deg);
       flex-direction:column;
-      align-items:center;
-      justify-content:center;
+      padding:12px 16px;
       gap:10px;
+      text-align:left;
     }
 
     .title{
@@ -94,9 +106,16 @@
       color:var(--u-text);
     }
 
+    .desc{
+      font-size:13px;
+      line-height:1.35;
+      color:var(--u-text);
+    }
+
     .btn{
       display:inline-block;
-      padding:6px 26px;
+      margin-top:4px;
+      padding:6px 18px;
       border-radius:999px;
       border:1px solid var(--u-text);
       font-size:13px;
@@ -113,17 +132,62 @@
   </div>
 
   <script>
-    // 👉 9 Karten – hier Titel + Links anpassen
+    // 👉 HIER DEINE KURSE EINTRAGEN (Bild, Titel, Text, Link)
     const courses = [
-      { title:'Titre à définir', url:'https://www.unipop.lu/' },
-      { title:'Titre à définir', url:'https://www.unipop.lu/' },
-      { title:'Titre à définir', url:'https://www.unipop.lu/' },
-      { title:'Titre à définir', url:'https://www.unipop.lu/' },
-      { title:'Titre à définir', url:'https://www.unipop.lu/' },
-      { title:'Titre à définir', url:'https://www.unipop.lu/' },
-      { title:'Titre à définir', url:'https://www.unipop.lu/' },
-      { title:'Titre à définir', url:'https://www.unipop.lu/' },
-      { title:'Titre à définir', url:'https://www.unipop.lu/' }
+      {
+        img:'https://www.unipop.lu/path/to/image1.jpg',
+        title:'Titre du cours 1',
+        text:'Court texte descriptif du cours 1.',
+        url:'https://www.unipop.lu/'
+      },
+      {
+        img:'https://www.unipop.lu/path/to/image2.jpg',
+        title:'Titre du cours 2',
+        text:'Court texte descriptif du cours 2.',
+        url:'https://www.unipop.lu/'
+      },
+      {
+        img:'https://www.unipop.lu/path/to/image3.jpg',
+        title:'Titre du cours 3',
+        text:'Court texte descriptif du cours 3.',
+        url:'https://www.unipop.lu/'
+      },
+      {
+        img:'https://www.unipop.lu/path/to/image4.jpg',
+        title:'Titre du cours 4',
+        text:'Court texte descriptif du cours 4.',
+        url:'https://www.unipop.lu/'
+      },
+      {
+        img:'https://www.unipop.lu/path/to/image5.jpg',
+        title:'Titre du cours 5',
+        text:'Court texte descriptif du cours 5.',
+        url:'https://www.unipop.lu/'
+      },
+      {
+        img:'https://www.unipop.lu/path/to/image6.jpg',
+        title:'Titre du cours 6',
+        text:'Court texte descriptif du cours 6.',
+        url:'https://www.unipop.lu/'
+      },
+      {
+        img:'https://www.unipop.lu/path/to/image7.jpg',
+        title:'Titre du cours 7',
+        text:'Court texte descriptif du cours 7.',
+        url:'https://www.unipop.lu/'
+      },
+      {
+        img:'https://www.unipop.lu/path/to/image8.jpg',
+        title:'Titre du cours 8',
+        text:'Court texte descriptif du cours 8.',
+        url:'https://www.unipop.lu/'
+      },
+      {
+        img:'https://www.unipop.lu/path/to/image9.jpg',
+        title:'Titre du cours 9',
+        text:'Court texte descriptif du cours 9.',
+        url:'https://www.unipop.lu/'
+      }
     ];
 
     const grid = document.getElementById('grid');
@@ -134,10 +198,11 @@
       card.innerHTML = `
         <div class="card-inner">
           <div class="card-face card-front">
-            <h2 class="title">${c.title}</h2>
+            <img src="${c.img}" alt="${c.title}">
           </div>
           <div class="card-face card-back">
             <h2 class="title">${c.title}</h2>
+            <p class="desc">${c.text}</p>
             <a class="btn" href="${c.url}" target="_blank" rel="noopener">
               Voir le détail du cours
             </a>
