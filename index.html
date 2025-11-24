@@ -17,6 +17,7 @@
       padding:0;
     }
     body{
+      margin:0;
       background:var(--u-navy);
     }
 
@@ -25,191 +26,252 @@
       margin:24px auto;
       padding:12px 18px;
       background:var(--u-navy);
+      border-radius:18px;
     }
 
     .grid{
       display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:12px;
     }
-    @media(max-width:900px){
-      .grid{ grid-template-columns:repeat(2,1fr); }
+    @media (max-width:900px){
+      .grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
     }
-    @media(max-width:550px){
+    @media (max-width:550px){
       .grid{ grid-template-columns:1fr; }
     }
 
-    /* Die Karte */
     .card{
       position:relative;
       height:170px;
-      perspective:1200px;
+      perspective:1000px;
     }
 
     .card-inner{
       position:absolute;
       inset:0;
-      border-radius:14px;
-      background:#fff;
+      border-radius:12px;
+      background:var(--u-card);
+      color:var(--u-text);
+      box-shadow:0 8px 20px rgba(0,0,0,.25);
       transform-style:preserve-3d;
       transition:transform .45s ease;
       overflow:hidden;
       cursor:pointer;
-      box-shadow:0 8px 20px rgba(0,0,0,.25);
     }
 
-    /* Flip */
-    .card.flipped .card-inner{
+    /* Flip bei Hover (kein JS nötig) */
+    .card:hover .card-inner{
       transform:rotateY(180deg);
     }
 
-    /* FRONT & BACK Grundlayout */
     .card-face{
       position:absolute;
       inset:0;
-      backface-visibility:hidden;
       display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      padding:14px;
+      backface-visibility:hidden;
+      -webkit-backface-visibility:hidden;
+      padding:12px 16px;
     }
 
     /* FRONT = Bild */
     .card-front{
       padding:0;
+      align-items:stretch;
+      justify-content:stretch;
     }
     .card-front img{
       width:100%;
       height:100%;
       object-fit:cover;
+      display:block;
     }
 
     /* BACK = Text + Button */
     .card-back{
       transform:rotateY(180deg);
-      background:var(--u-card);
-      color:var(--u-text);
-      text-align:left;
+      flex-direction:column;
       align-items:flex-start;
       justify-content:flex-start;
-      gap:8px;
-      padding:16px;
+      gap:10px;
+      background:var(--u-card);
     }
 
     .title{
       font-size:14px;
       font-weight:700;
+      color:var(--u-text);
     }
 
     .desc{
       font-size:13px;
       line-height:1.35;
+      color:var(--u-text);
     }
 
     .btn{
+      display:inline-block;
       margin-top:auto;
       padding:6px 18px;
       border-radius:999px;
       border:1px solid var(--u-text);
+      font-size:13px;
       text-decoration:none;
       color:var(--u-text);
-      font-size:13px;
-      display:inline-block;
+      background:transparent;
+      white-space:nowrap;
     }
   </style>
 </head>
-
 <body>
   <div class="strip">
-    <div id="grid" class="grid"></div>
-  </div>
+    <div class="grid">
 
-  <script>
-    /* HIER DEINE 9 KARTEN EINTRAGEN */
-    const courses = [
-      {
-        img:"https://via.placeholder.com/300x200?text=Image+1",
-        title:"Titre du cours 1",
-        text:"Un petit résumé du cours 1.",
-        url:"https://www.unipop.lu/"
-      },
-      {
-        img:"https://via.placeholder.com/300x200?text=Image+2",
-        title:"Titre du cours 2",
-        text:"Un petit résumé du cours 2.",
-        url:"https://www.unipop.lu/"
-      },
-      {
-        img:"https://via.placeholder.com/300x200?text=Image+3",
-        title:"Titre du cours 3",
-        text:"Un petit résumé du cours 3.",
-        url:"https://www.unipop.lu/"
-      },
-      {
-        img:"https://via.placeholder.com/300x200?text=Image+4",
-        title:"Titre du cours 4",
-        text:"Un petit résumé du cours 4.",
-        url:"https://www.unipop.lu/"
-      },
-      {
-        img:"https://via.placeholder.com/300x200?text=Image+5",
-        title:"Titre du cours 5",
-        text:"Un petit résumé du cours 5.",
-        url:"https://www.unipop.lu/"
-      },
-      {
-        img:"https://via.placeholder.com/300x200?text=Image+6",
-        title:"Titre du cours 6",
-        text:"Un petit résumé du cours 6.",
-        url:"https://www.unipop.lu/"
-      },
-      {
-        img:"https://via.placeholder.com/300x200?text=Image+7",
-        title:"Titre du cours 7",
-        text:"Un petit résumé du cours 7.",
-        url:"https://www.unipop.lu/"
-      },
-      {
-        img:"https://via.placeholder.com/300x200?text=Image+8",
-        title:"Titre du cours 8",
-        text:"Un petit résumé du cours 8.",
-        url:"https://www.unipop.lu/"
-      },
-      {
-        img:"https://via.placeholder.com/300x200?text=Image+9",
-        title:"Titre du cours 9",
-        text:"Un petit résumé du cours 9.",
-        url:"https://www.unipop.lu/"
-      }
-    ];
-
-    const grid = document.getElementById("grid");
-
-    courses.forEach(c => {
-      const card = document.createElement("article");
-      card.className = "card";
-
-      card.innerHTML = `
+      <!-- Kachel 1 -->
+      <article class="card">
         <div class="card-inner">
           <div class="card-face card-front">
-            <img src="${c.img}" alt="">
+            <img src="https://via.placeholder.com/600x400?text=Image+1" alt="Titre du cours 1">
           </div>
           <div class="card-face card-back">
-            <div class="title">${c.title}</div>
-            <div class="desc">${c.text}</div>
-            <a class="btn" href="${c.url}" target="_blank">Voir le détail du cours</a>
+            <h2 class="title">Titre du cours 1</h2>
+            <p class="desc">Court texte descriptif du cours 1.</p>
+            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
+              Voir le détail du cours
+            </a>
           </div>
         </div>
-      `;
+      </article>
 
-      card.addEventListener("click", e => {
-        if (e.target.closest("a")) return;
-        card.classList.toggle("flipped");
-      });
+      <!-- Kachel 2 -->
+      <article class="card">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <img src="https://via.placeholder.com/600x400?text=Image+2" alt="Titre du cours 2">
+          </div>
+          <div class="card-face card-back">
+            <h2 class="title">Titre du cours 2</h2>
+            <p class="desc">Court texte descriptif du cours 2.</p>
+            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
+              Voir le détail du cours
+            </a>
+          </div>
+        </div>
+      </article>
 
-      grid.appendChild(card);
-    });
-  </script>
+      <!-- Kachel 3 -->
+      <article class="card">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <img src="https://via.placeholder.com/600x400?text=Image+3" alt="Titre du cours 3">
+          </div>
+          <div class="card-face card-back">
+            <h2 class="title">Titre du cours 3</h2>
+            <p class="desc">Court texte descriptif du cours 3.</p>
+            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
+              Voir le détail du cours
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Kachel 4 -->
+      <article class="card">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <img src="https://via.placeholder.com/600x400?text=Image+4" alt="Titre du cours 4">
+          </div>
+          <div class="card-face card-back">
+            <h2 class="title">Titre du cours 4</h2>
+            <p class="desc">Court texte descriptif du cours 4.</p>
+            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
+              Voir le détail du cours
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Kachel 5 -->
+      <article class="card">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <img src="https://via.placeholder.com/600x400?text=Image+5" alt="Titre du cours 5">
+          </div>
+          <div class="card-face card-back">
+            <h2 class="title">Titre du cours 5</h2>
+            <p class="desc">Court texte descriptif du cours 5.</p>
+            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
+              Voir le détail du cours
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Kachel 6 -->
+      <article class="card">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <img src="https://via.placeholder.com/600x400?text=Image+6" alt="Titre du cours 6">
+          </div>
+          <div class="card-face card-back">
+            <h2 class="title">Titre du cours 6</h2>
+            <p class="desc">Court texte descriptif du cours 6.</p>
+            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
+              Voir le détail du cours
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Kachel 7 -->
+      <article class="card">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <img src="https://via.placeholder.com/600x400?text=Image+7" alt="Titre du cours 7">
+          </div>
+          <div class="card-face card-back">
+            <h2 class="title">Titre du cours 7</h2>
+            <p class="desc">Court texte descriptif du cours 7.</p>
+            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
+              Voir le détail du cours
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Kachel 8 -->
+      <article class="card">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <img src="https://via.placeholder.com/600x400?text=Image+8" alt="Titre du cours 8">
+          </div>
+          <div class="card-face card-back">
+            <h2 class="title">Titre du cours 8</h2>
+            <p class="desc">Court texte descriptif du cours 8.</p>
+            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
+              Voir le détail du cours
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Kachel 9 -->
+      <article class="card">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <img src="https://via.placeholder.com/600x400?text=Image+9" alt="Titre du cours 9">
+          </div>
+          <div class="card-face card-back">
+            <h2 class="title">Titre du cours 9</h2>
+            <p class="desc">Court texte descriptif du cours 9.</p>
+            <a class="btn" href="https://www.unipop.lu/" target="_blank" rel="noopener">
+              Voir le détail du cours
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
 </body>
 </html>
