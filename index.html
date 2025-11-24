@@ -240,7 +240,7 @@
 </div>
 
 <script>
-  const AUTO_CLOSE_MS = 5000; // 5 Sekunden sichtbar
+  const AUTO_CLOSE_MS = 6000; // 6 Sekunden sichtbar
 
   const cards = document.querySelectorAll('.card');
 
@@ -269,7 +269,7 @@
       // Karte auf Rückseite drehen (kein Toggle mehr)
       card.classList.add('is-flipped');
 
-      // nach 5 Sekunden automatisch wieder auf Front drehen
+      // nach 6 Sekunden automatisch wieder auf Front drehen
       card._flipTimer = setTimeout(() => {
         card.classList.remove('is-flipped');
         card._flipTimer = null;
