@@ -249,46 +249,5 @@
   });
 </script>
 
-  <script>
-  const AUTO_CLOSE_MS = 5000; // 5 Sekunden
-  const cards = document.querySelectorAll('.card');
-  let currentTimer = null;
-  let currentCard = null;
-
-  cards.forEach(card => {
-    card.addEventListener('click', e => {
-      // Link normal öffnen
-      if (e.target.closest('a')) return;
-
-      // alle anderen Karten schließen
-      cards.forEach(c => {
-        if (c !== card) c.classList.remove('is-flipped');
-      });
-
-      const willOpen = !card.classList.contains('is-flipped');
-
-      // alten Timer löschen
-      if (currentTimer) {
-        clearTimeout(currentTimer);
-        currentTimer = null;
-        currentCard = null;
-      }
-
-      // Karte toggeln
-      card.classList.toggle('is-flipped');
-
-      // wenn geöffnet → Auto-Close starten
-      if (willOpen) {
-        currentCard = card;
-        currentTimer = setTimeout(() => {
-          if (currentCard) currentCard.classList.remove('is-flipped');
-          currentCard = null;
-          currentTimer = null;
-        }, AUTO_CLOSE_MS);
-      }
-    });
-  });
-</script>
-
-</body>
+  </body>
 </html>
