@@ -43,7 +43,6 @@
     .card{
       position:relative;
       height:170px;
-      perspective:1000px;
       cursor:pointer;
     }
 
@@ -55,13 +54,6 @@
       color:var(--u-text);
       box-shadow:0 8px 20px rgba(0,0,0,.25);
       overflow:hidden;
-      transform-style:preserve-3d;
-      transition:transform .45s ease;
-    }
-
-    /* Flip nur wenn .flipped gesetzt wird (per Klick) */
-    .card.flipped .card-inner{
-      transform:rotateY(180deg);
     }
 
     .card-face{
@@ -70,16 +62,16 @@
       display:flex;
       flex-direction:column;
       padding:12px 16px;
-      /* wir steuern Sichtbarkeit über Opacity,
-         damit es keine Spiegel-Probleme gibt */
       opacity:0;
-      transition:opacity .2s ease;
+      transition:opacity .25s ease;
+      pointer-events:none;
     }
 
-    /* FRONT = Bild sichtbar, BACK unsichtbar */
+    /* FRONT = Bild sichtbar */
     .card-front{
-      opacity:1;
       padding:0;
+      opacity:1;
+      pointer-events:auto;
     }
     .card-front img{
       width:100%;
@@ -97,12 +89,14 @@
       gap:8px;
     }
 
-    /* Wenn Karte geflippt ist: Front aus, Back an */
+    /* Wenn geflippt: Front aus, Back an */
     .card.flipped .card-front{
       opacity:0;
+      pointer-events:none;
     }
     .card.flipped .card-back{
       opacity:1;
+      pointer-events:auto;
     }
 
     .title{
@@ -117,7 +111,10 @@
 
     .btn{
       margin-top:auto;
-      display:inline-block;
+      align-self:center;
+      display:inline-flex !important;
+      align-items:center;
+      justify-content:center;
       padding:6px 18px;
       border-radius:999px;
       border:1px solid var(--u-text);
@@ -126,6 +123,7 @@
       color:var(--u-text);
       background:transparent;
       white-space:nowrap;
+      width:auto;
     }
   </style>
 </head>
@@ -284,12 +282,10 @@
     // Flip nur bei Klick
     document.querySelectorAll('.card').forEach(card => {
       card.addEventListener('click', e => {
-        // Wenn auf den Link geklickt wird -> normal öffnen, nicht flippen
-        if (e.target.closest('a')) return;
+        if (e.target.closest('a')) return; // Link normal öffnen
         card.classList.toggle('flipped');
       });
     });
   </script>
 </body>
 </html>
-
