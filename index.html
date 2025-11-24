@@ -32,6 +32,36 @@
       gap:16px;
     }
 
+    /* Tablet: 2 Spalten */
+    @media (max-width:900px){
+      .grid{
+        grid-template-columns:repeat(2,1fr);
+      }
+    }
+
+    /* Handy: 1 Spalte + etwas kompakter */
+    @media (max-width:600px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+      .page{
+        padding:16px 10px 32px;
+      }
+      .card{
+        min-height:190px;
+      }
+      .title{
+        font-size:15px;
+      }
+      .desc{
+        font-size:13px;
+      }
+      .link{
+        font-size:13px;
+        padding:6px 10px;
+      }
+    }
+
     /* ---- Flip Cards ---- */
     .card{
       perspective:1000px;
@@ -277,3 +307,5 @@
     });
   });
 </script>
+</body>
+</html>
